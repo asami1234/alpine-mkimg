@@ -1,4 +1,5 @@
 #!/bin/sh -e
+set -x
 
 HOSTNAME="$1"
 if [ -z "$HOSTNAME" ]; then
@@ -45,6 +46,7 @@ EOF
 
 mkdir -p "$tmp"/etc/apk
 makefile root:root 0644 "$tmp"/etc/apk/world <<EOF
+bash
 vim
 openssh
 parted
@@ -56,6 +58,8 @@ PermitRootLogin yes
 EOF
 
 mkdir -p "$tmp"/etc/local.d
+cp /root/nwipe "$tmp"/etc/local.d/nwipe
+
 # =------------------------------------------------------------=
 # Hello preseed script, my new friend.
 #
@@ -65,12 +69,15 @@ mkdir -p "$tmp"/etc/local.d
 makefile root:root 0755 "$tmp"/etc/local.d/preseed.start <<'EOF'
 #!/bin/sh
 # Fail fast, if we make it onto a live system.
-test "$(hostname)" = "preseed" || exit 111
+# test "$(hostname)" = "preseed" || exit 111
 # Here would be the preseed script in earnest. One that sets
 # the hostname to something else than `preseed`, or at least
 # makes sure the /etc/local.d/preseed.start isn't carried over.
 # Lest you're a glutton for punishment.
 echo "preseeded at $(date)" >> /root/preseeded.txt
+echo "root":"root" | chpasswd
+chmod +x /etc/local.d/nwipe
+cp /etc/local.d/nwipe /usr/local/bin
 EOF
 
 rc_add devfs sysinit
