@@ -1,0 +1,3 @@
+FROM alpine
+COPY alpine-preseed-edge-x86_64.iso .
+CMD ["tail", "-f", "/dev/null"]
