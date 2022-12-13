@@ -38,11 +38,22 @@ auto lo
 iface lo inet loopback
 
 auto eth0
-iface eth0 inet dhcp
+iface eth0 inet static
+    address 10.0.2.20
+    netmask 255.255.255.0
 EOF
 
-# copy nwipe bin
-# cp nwipe "$tmp/usr/bin"
+mkdir -p "$tmp"/etc/apk
+makefile root:root 0644 "$tmp"/etc/apk/world <<EOF
+vim
+openssh
+parted
+EOF
+
+mkdir -p "$tmp"/etc/ssh
+makefile root:root 0644 "$tmp"/etc/ssh/sshd_config <<EOF
+PermitRootLogin yes
+EOF
 
 mkdir -p "$tmp"/etc/local.d
 # =------------------------------------------------------------=
@@ -77,6 +88,7 @@ rc_add syslog boot
 # we want our preseed to run & have network while at it
 rc_add networking boot
 rc_add local boot
+rc_add sshd boot
 
 rc_add mount-ro shutdown
 rc_add killprocs shutdown
