@@ -16,7 +16,7 @@ cd /root/iso # you can get iso file
 docker cp test:/root/iso/alpine-preseed-edge-x86_64.iso .
 ```
 
-## fix
+## fix genapkovl-preseed.sh
 ```
 add network setting
 add apk package
