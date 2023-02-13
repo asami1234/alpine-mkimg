@@ -2,10 +2,10 @@ build:
 	docker build -t test .
 
 run:
-	docker run -d test
+	docker run --name test -d test
 
 iso:
-	docker build -t asami1234/alpine-mkimg:1.2 -f Dockerfile1 .
+	docker build -t asami1234/alpine-mkimg:1.2 -f Dockerfile-iso .
 
 push:
 	docker push asami1234/alpine-mkimg:1.2
