@@ -12,6 +12,6 @@ RUN abuild-keygen -ian
 COPY mkimg.preseed.sh /root/aports/scripts/mkimg.preseed.sh
 COPY genapkovl-preseed.sh /root/aports/scripts/genapkovl-preseed.sh
 COPY build.sh .
-COPY nwipe .
+COPY nwipe-alpine/nwipe .
 
 CMD ["tail", "-f", "/dev/null"]

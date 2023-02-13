@@ -6,7 +6,7 @@ make run
 
 ## execute container, run script
 ```
-docker exec -it test sh
+make exec
 sh build.sh
 cd /root/iso # you can get iso file
 ```
